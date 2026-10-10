@@ -58,6 +58,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-05 -->
 - **06_your_corpus.py** · The same measurements on your Pinecone index; writes `reports/retrieval_report.md`
 <!-- notebook-06 -->
+- **07_breakout_help_desk.py** · Breakout: four products, four rules, four different right answers
 <!-- notebook-07 -->
 
 ## What is where
