@@ -46,6 +46,7 @@ uv run marimo edit notebooks/00_bench.py
 
 - **00_bench.py** · The bench: a fixed corpus, questions with evidence phrases, and a dense baseline
 <!-- notebook-00 -->
+- **01_metrics.py** · recall@k, precision@k and MRR, by hand and over the whole set; what k costs
 <!-- notebook-01 -->
 <!-- notebook-02 -->
 <!-- notebook-03 -->
