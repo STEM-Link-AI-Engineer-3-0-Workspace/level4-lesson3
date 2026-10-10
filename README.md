@@ -54,6 +54,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-03 -->
 - **04_tuning.py** · One knob at a time: chunk size at equal budget, overlap, a metadata filter
 <!-- notebook-04 -->
+- **05_failures.py** · Where the evidence went: query, chunking, index or corpus; unanswerable questions
 <!-- notebook-05 -->
 <!-- notebook-06 -->
 <!-- notebook-07 -->
