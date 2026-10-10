@@ -48,6 +48,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-00 -->
 - **01_metrics.py** · recall@k, precision@k and MRR, by hand and over the whole set; what k costs
 <!-- notebook-01 -->
+- **02_hybrid.py** · BM25 and its tokenizer, reciprocal rank fusion by hand, `EnsembleRetriever`
 <!-- notebook-02 -->
 <!-- notebook-03 -->
 <!-- notebook-04 -->
