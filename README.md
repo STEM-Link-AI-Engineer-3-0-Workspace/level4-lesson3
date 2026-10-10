@@ -52,6 +52,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-02 -->
 - **03_rerank.py** · Cross-encoder versus bi-encoder scores, two-stage retrieval, candidate count versus latency
 <!-- notebook-03 -->
+- **04_tuning.py** · One knob at a time: chunk size at equal budget, overlap, a metadata filter
 <!-- notebook-04 -->
 <!-- notebook-05 -->
 <!-- notebook-06 -->
