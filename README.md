@@ -50,6 +50,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-01 -->
 - **02_hybrid.py** · BM25 and its tokenizer, reciprocal rank fusion by hand, `EnsembleRetriever`
 <!-- notebook-02 -->
+- **03_rerank.py** · Cross-encoder versus bi-encoder scores, two-stage retrieval, candidate count versus latency
 <!-- notebook-03 -->
 <!-- notebook-04 -->
 <!-- notebook-05 -->
