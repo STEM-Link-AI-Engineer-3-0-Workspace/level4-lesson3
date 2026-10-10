@@ -1,0 +1,14 @@
+[
+  {
+    "id": "m01",
+    "question": "How much urea goes on at the first top dressing?",
+    "evidence": ["copy a short phrase from the answering chunk here"],
+    "chunk_ids": ["the id POST /search returned in Lesson 2"]
+  },
+  {
+    "id": "m02",
+    "question": "Which document covers tractor rental rates?",
+    "evidence": [],
+    "chunk_ids": []
+  }
+]
