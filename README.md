@@ -52,6 +52,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-01 -->
 - **02_hybrid.py** · BM25 and its tokenizer, reciprocal rank fusion by hand, then as an `rrf` function
 <!-- notebook-02 -->
+- **03_rerank.py** · Pinecone's hosted cross-encoder versus embedding scores, two-stage retrieval, candidate count
 <!-- notebook-03 -->
 <!-- notebook-04 -->
 <!-- notebook-05 -->
