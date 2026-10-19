@@ -1,0 +1,24 @@
+[
+ {"id": "h01", "type": "keyword", "question": "My PX-12 shows E5. What does it mean?", "evidence": ["E5: Low refrigerant or a gas leak"]},
+ {"id": "h02", "type": "keyword", "question": "WF-70 error E21", "evidence": ["E21: Water does not drain"]},
+ {"id": "h03", "type": "keyword", "question": "What does P4 mean on the air conditioner?", "evidence": ["P4: Voltage protection"]},
+ {"id": "h04", "type": "keyword", "question": "What happened in ticket TCK-50377?", "evidence": ["Installed 300 m from the sea without anti-corrosion coating"]},
+ {"id": "h05", "type": "keyword", "question": "UE on the washing machine display", "evidence": ["UE: Unbalanced load"]},
+ {"id": "h06", "type": "keyword", "question": "What temperature should the RD-320 freezer be set to?", "evidence": ["the freezer to −18 °C for normal use"]},
+ {"id": "h07", "type": "keyword", "question": "How much does Care+ cost for an air conditioner?", "evidence": ["10 percent for air conditioners"]},
+ {"id": "h08", "type": "keyword", "question": "What are the hours of the Galle service centre?", "evidence": ["Galle (Wakwella Road): Monday to Friday, 8.30 am to 5 pm."]},
+
+ {"id": "h09", "type": "paraphrase", "question": "My washing machine jumps around and bangs loudly when it spins. It's brand new.", "evidence": ["Transport bolts had not been removed", "Redistribute the load or add a few items"]},
+ {"id": "h10", "type": "paraphrase", "question": "The bottom part of my fridge is warm but the ice section is fine.", "evidence": ["If the freezer is cold but the lower compartment is warm"]},
+ {"id": "h11", "type": "paraphrase", "question": "Can I give back a cooker I bought last week if I haven't opened the box?", "evidence": ["returned within 7 days of delivery if it is unused and in its original, unopened packaging"]},
+ {"id": "h12", "type": "paraphrase", "question": "My AC unit outside is going brown and flaky. We live near the beach. Will you fix it for free?", "evidence": ["Rust or corrosion on outdoor air conditioner units installed within 1 km of the sea"]},
+ {"id": "h13", "type": "paraphrase", "question": "Water is leaking onto the floor from the AC on the wall.", "evidence": ["If water drips from the indoor unit, the drain pipe is blocked"]},
+ {"id": "h14", "type": "paraphrase", "question": "How often should I wash the mesh things in my AC?", "evidence": ["Clean the filters every two weeks in normal use"]},
+ {"id": "h15", "type": "paraphrase", "question": "The new fridge arrived an hour ago. Can I plug it in straight away?", "evidence": ["Wait 3 hours after the refrigerator has been moved or delivered"]},
+ {"id": "h16", "type": "paraphrase", "question": "The washing door's front rubber smells bad and has black spots.", "evidence": ["It prevents bad smells and black mould on the door seal"]},
+
+ {"id": "h17", "type": "multi", "question": "My air conditioner is 4 years old and needs a gas refill. Is that covered, and what will it cost?", "evidence": ["labour and gas refilling after the first 2 years are charged", "Gas refilling for an air conditioner costs LKR 9,000"]},
+ {"id": "h18", "type": "multi", "question": "I want to move house with my WF-70. What do I need to do, and what happens if I don't?", "evidence": ["refit the three transport bolts at the back", "Damage caused by moving a washing machine without its transport bolts"]},
+ {"id": "h19", "type": "multi", "question": "We live 40 km from the showroom. How much will delivery of a fridge cost?", "evidence": ["Delivery is free within 25 km of any Paravi showroom", "a charge of LKR 100 per km is made for the extra distance"]},
+ {"id": "h20", "type": "multi", "question": "My AC keeps showing a voltage error in the evenings. What should I do, and would damage from bad voltage be covered?", "evidence": ["Customer advised to install a voltage stabilizer", "Damage caused by voltage fluctuation or lightning"]}
+]

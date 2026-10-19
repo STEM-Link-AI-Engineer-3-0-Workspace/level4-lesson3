@@ -1,0 +1,95 @@
+{
+ "paddy_fertilizer_guide.md": {
+  "category": "cultivation_guide",
+  "title": "Paddy Fertilizer Recommendations"
+ },
+ "paddy_pest_disease_guide.md": {
+  "category": "cultivation_guide",
+  "title": "Paddy Pests and Diseases"
+ },
+ "paddy_varieties.md": {
+  "category": "cultivation_guide",
+  "title": "Paddy Variety Guide"
+ },
+ "chilli_cultivation.md": {
+  "category": "cultivation_guide",
+  "title": "Chilli Cultivation Guide"
+ },
+ "water_management.md": {
+  "category": "cultivation_guide",
+  "title": "Water Management in Irrigated Paddy"
+ },
+ "fertilizer_subsidy_circular_2025.md": {
+  "category": "policy",
+  "title": "Circular AGR/FS/2025/07",
+  "year": 2025
+ },
+ "fertilizer_subsidy_circular_2024.md": {
+  "category": "policy",
+  "title": "Circular AGR/FS/2024/11",
+  "year": 2024,
+  "current": false
+ },
+ "crop_insurance_scheme.md": {
+  "category": "policy",
+  "title": "Paddy Crop Protection Scheme"
+ },
+ "seed_certification_rules.md": {
+  "category": "policy",
+  "title": "Seed Paddy Certification"
+ },
+ "farm_record_K17.md": {
+  "category": "farm_record",
+  "title": "Plot K-17, Kurunegala"
+ },
+ "farm_record_A04.md": {
+  "category": "farm_record",
+  "title": "Plot A-04, Ampara"
+ },
+ "farm_record_P22.md": {
+  "category": "farm_record",
+  "title": "Plot P-22, Polonnaruwa"
+ },
+ "big_onion_cultivation.md": {
+  "category": "cultivation_guide",
+  "title": "Big Onion Cultivation Guide"
+ },
+ "vegetable_pest_guide.md": {
+  "category": "cultivation_guide",
+  "title": "Pests of Vegetables"
+ },
+ "soil_testing_guide.md": {
+  "category": "cultivation_guide",
+  "title": "Soil Testing for Farmers"
+ },
+ "weed_management_paddy.md": {
+  "category": "cultivation_guide",
+  "title": "Weed Management in Paddy"
+ },
+ "post_harvest_paddy.md": {
+  "category": "cultivation_guide",
+  "title": "Post-Harvest Handling of Paddy"
+ },
+ "ofc_subsidy_circular_2025.md": {
+  "category": "policy",
+  "title": "Circular AGR/OFC/2025/03",
+  "year": 2025
+ },
+ "paddy_purchase_price_2025.md": {
+  "category": "policy",
+  "title": "Notice PMB/2025/04",
+  "year": 2025
+ },
+ "farm_record_K09.md": {
+  "category": "farm_record",
+  "title": "Plot K-09, Kurunegala"
+ },
+ "farm_record_A11.md": {
+  "category": "farm_record",
+  "title": "Plot A-11, Ampara"
+ },
+ "farm_record_P30.md": {
+  "category": "farm_record",
+  "title": "Plot P-30, Polonnaruwa"
+ }
+}

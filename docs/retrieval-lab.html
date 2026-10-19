@@ -1,0 +1,339 @@
+<title>Retrieval Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: one lab bench with five stations (tabs); each station = a control strip over a live readout. */
+:root{
+  --bg:#F2F5F3; --panel:#FFFFFF; --ink:#13201B; --ink2:#43524C; --mute:#73827C; --line:#D9E1DC;
+  --accent:#3446C9; --dense:#13807A; --bm25:#9A3F8F; --ev:#D9971F; --evbg:#FBF0D9; --good:#2C8A4B;
+  --display:"Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1412; --panel:#161E1B; --ink:#E6EEEA; --ink2:#B4C2BC; --mute:#82918B; --line:#2A3632;
+  --accent:#8E9BFF; --dense:#4CC2B9; --bm25:#E18AD6; --ev:#F2B84B; --evbg:#3A2F17; --good:#5CC27D; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#0E1412; --panel:#161E1B; --ink:#E6EEEA; --ink2:#B4C2BC; --mute:#82918B; --line:#2A3632;
+  --accent:#8E9BFF; --dense:#4CC2B9; --bm25:#E18AD6; --ev:#F2B84B; --evbg:#3A2F17; --good:#5CC27D; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--sans);margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+header .eyebrow{font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+h1{font:800 clamp(30px,5vw,48px)/1.02 var(--display);letter-spacing:-.025em;margin:10px 0 10px;text-wrap:balance}
+.lede{color:var(--ink2);max-width:64ch;margin:0}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin:24px 0 18px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding-block:10px;z-index:5;border-bottom:1px solid var(--line)}
+nav button{font:500 13px/1 var(--sans);border:1px solid var(--line);background:var(--panel);color:var(--ink2);padding:9px 13px;border-radius:999px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav button:focus-visible, button:focus-visible, input:focus-visible, a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+section{display:grid;gap:18px}
+section[hidden]{display:none}
+h2{font:700 26px/1.1 var(--display);letter-spacing:-.015em;margin:0;text-wrap:balance}
+.sub{color:var(--ink2);max-width:66ch;margin:0}
+.bench{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+.controls{display:flex;flex-wrap:wrap;gap:18px 28px;align-items:end}
+.ctl{display:grid;gap:6px;min-width:0}
+.ctl label{font:500 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.ctl output{font:600 15px/1 var(--mono);color:var(--ink)}
+input[type=range]{width:200px;max-width:100%;accent-color:var(--accent)}
+input[type=number]{width:90px;font:500 14px var(--mono);padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font:500 13px var(--sans);border:0;background:var(--panel);color:var(--ink2);padding:8px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{border-top:3px solid var(--accent);padding-top:10px}
+.stat b{display:block;font:800 34px/1 var(--display);font-variant-numeric:tabular-nums}
+.stat span{font:500 11px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.stat p{margin:6px 0 0;color:var(--ink2);font-size:13.5px}
+ol.rank{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rank li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--bg);min-width:0}
+.rank li.cut{opacity:.42}
+.rank li.rel{background:var(--evbg);border-color:var(--ev)}
+.rank .pos{font:600 13px var(--mono);color:var(--mute);font-variant-numeric:tabular-nums}
+.rank .doc{min-width:0}
+.rank .doc b{font:600 12.5px var(--mono);display:block;overflow-wrap:anywhere}
+.rank .doc small{color:var(--ink2);font-size:12.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank button.mark{font:600 12px var(--mono);border:1px solid var(--line);background:var(--panel);color:var(--ink2);border-radius:6px;padding:5px 8px;cursor:pointer;white-space:nowrap}
+.rank li.rel button.mark{border-color:var(--ev);color:var(--ink)}
+.kline{height:0;border-top:2px dashed var(--accent);position:relative;margin:2px 0}
+.kline span{position:absolute;right:0;top:-10px;background:var(--panel);font:600 11px var(--mono);color:var(--accent);padding:0 6px}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.col h3{font:600 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;margin:0 0 8px}
+.col.dense h3{color:var(--dense)} .col.bm25 h3{color:var(--bm25)} .col.fused h3{color:var(--accent)}
+.score{font:500 12px var(--mono);color:var(--ink2);font-variant-numeric:tabular-nums}
+.tag{font:600 10.5px var(--mono);padding:2px 6px;border-radius:4px;margin-left:6px}
+.tag.d{color:var(--dense);border:1px solid var(--dense)} .tag.b{color:var(--bm25);border:1px solid var(--bm25)}
+.callout{border-left:3px solid var(--ev);padding:8px 14px;background:var(--panel);color:var(--ink2);border-radius:0 8px 8px 0;max-width:72ch}
+.callout b{color:var(--ink)}
+.diagram{overflow-x:auto}
+.diagram svg{display:block;width:100%;min-width:620px;height:auto}
+.diagram text{font-family:var(--mono)}
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:110px 1fr 70px;gap:12px;align-items:center}
+.bar .lab{font:600 13px var(--mono)}
+.bar .track{position:relative;height:26px;background:var(--bg);border:1px solid var(--line);border-radius:6px}
+.bar .fill{position:absolute;inset:0 auto 0 0;background:var(--accent);opacity:.85;border-radius:5px 0 0 5px;transition:width .35s}
+.bar .chars{position:absolute;left:8px;top:4px;font:600 12px var(--mono);color:#fff;mix-blend-mode:normal}
+.bar .rec{font:800 20px var(--display);font-variant-numeric:tabular-nums;text-align:right}
+.budget{position:absolute;top:-6px;bottom:-6px;width:0;border-left:2px dashed var(--ev)}
+.legend{font:500 12px var(--mono);color:var(--mute)}
+.map svg{width:100%;height:auto;display:block;min-width:640px}
+.map a text{text-decoration:underline;text-decoration-color:var(--line)}
+.passages{display:grid;gap:8px}
+.passage{display:grid;grid-template-columns:1fr auto;gap:10px;border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--bg);align-items:center}
+.passage .cos{font:600 13px var(--mono);color:var(--dense);font-variant-numeric:tabular-nums}
+.calc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+footer{margin-top:40px;color:var(--mute);font-size:12.5px;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:760px){ .cols,.stats,.calc{grid-template-columns:1fr} .bar{grid-template-columns:80px 1fr 56px} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important} }
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">STEMLink AI Engineer Bootcamp · Level 4 · Lesson 3</div>
+  <h1>Retrieval Lab</h1>
+  <p class="lede">Five stations for the ideas in the retrieval quality lesson. Every list here comes from the FieldOracle bench in the <code>level4-lesson3</code> repo. Move the controls and watch the numbers.</p>
+</header>
+
+<nav role="tablist" aria-label="Stations">
+  <button role="tab" data-tab="map" aria-selected="true">Map</button>
+  <button role="tab" data-tab="metrics" aria-selected="false">1 · Score a list</button>
+  <button role="tab" data-tab="fusion" aria-selected="false">2 · Fuse two lists</button>
+  <button role="tab" data-tab="rerank" aria-selected="false">3 · Rerank</button>
+  <button role="tab" data-tab="budget" aria-selected="false">4 · Chunk budget</button>
+</nav>
+
+<!-- MAP -->
+<section id="map" role="tabpanel">
+  <h2>The lesson on one page</h2>
+  <p class="sub">Each branch is a block of the session: the idea, the notebook that runs it, and where to read more. Links open in a new tab.</p>
+  <div class="bench map diagram"><svg id="mapsvg" viewBox="0 0 1000 560" role="img" aria-label="Concept map of the retrieval quality lesson"></svg></div>
+</section>
+
+<!-- METRICS -->
+<section id="metrics" role="tabpanel" hidden>
+  <h2>Score a ranked list</h2>
+  <p class="sub">This is dense retrieval's real top 10 for a bench question. Highlighted rows contain evidence. Click <b>mark</b> to change what counts as relevant, and move <b>k</b> to change how many results are sent to the model.</p>
+  <div class="bench">
+    <p style="margin:0 0 12px"><b>Question q21:</b> <span id="q21q"></span></p>
+    <div class="controls">
+      <div class="ctl"><label for="k1">k, results sent</label><input id="k1" type="range" min="1" max="10" value="5"><output id="k1o">5</output></div>
+      <div class="ctl"><label for="tot">relevant chunks in the corpus</label><input id="tot" type="number" min="1" max="20" value="4"></div>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat"><span>recall@k</span><b id="mrec">–</b><p>Share of all relevant chunks that made it into the top k.</p></div>
+    <div class="stat"><span>precision@k</span><b id="mprec">–</b><p>Share of the top k that is relevant.</p></div>
+    <div class="stat"><span>reciprocal rank</span><b id="mrr">–</b><p>1 ÷ position of the first relevant chunk.</p></div>
+  </div>
+  <div class="bench"><ol class="rank" id="mlist"></ol></div>
+  <p class="callout">Try it: set k to 1, then to 10. Recall climbs, precision falls. Then unmark the first result and watch only reciprocal rank collapse. The bench scores evidence phrases rather than chunks, so its recall can differ slightly.</p>
+</section>
+
+<!-- FUSION -->
+<section id="fusion" role="tabpanel" hidden>
+  <h2>Fuse two lists with reciprocal rank fusion</h2>
+  <p class="sub">Dense and BM25 rankings for the same farmer question. Each list gives a chunk <code>weight ÷ (c + rank)</code>; the fused list sorts by the sum. The highlighted chunk is the one that answers the question.</p>
+  <div class="bench">
+    <p style="margin:0 0 12px"><b>Question q11:</b> <span id="q11q"></span></p>
+    <div class="controls">
+      <div class="ctl"><label for="depth">results taken from each list</label><input id="depth" type="range" min="2" max="10" value="5"><output id="deptho">5</output></div>
+      <div class="ctl"><label for="cc">c, the rank constant</label><input id="cc" type="range" min="0" max="120" value="60"><output id="cco">60</output></div>
+      <div class="ctl"><label for="wb">BM25 weight</label><input id="wb" type="range" min="0" max="100" value="50"><output id="wbo">0.50</output></div>
+    </div>
+  </div>
+  <div class="cols">
+    <div class="col dense bench"><h3>Dense</h3><ol class="rank" id="fd"></ol></div>
+    <div class="col bm25 bench"><h3>BM25</h3><ol class="rank" id="fb"></ol></div>
+    <div class="col fused bench"><h3>Fused, top 5</h3><ol class="rank" id="ff"></ol></div>
+  </div>
+  <p class="callout" id="fusionnote"></p>
+  <p class="callout">Three things to find: (1) at 5 per side the answer is 4th; at 6 per side it jumps to 1st, because now <b>both</b> lists contain it. (2) Set c to 0 and first place in either list dominates. (3) Move the weight to 0.3 and the fused list becomes dense alone.</p>
+</section>
+
+<!-- RERANK -->
+<section id="rerank" role="tabpanel" hidden>
+  <h2>Separate, or together</h2>
+  <p class="sub">A bi-encoder turns the question and every chunk into vectors separately, so the chunk vectors can be computed before anyone asks. A cross-encoder reads the question and one chunk as a single input and returns one score.</p>
+  <div class="bench diagram"><svg viewBox="0 0 900 330" role="img" aria-label="Bi-encoder versus cross-encoder diagram">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--mute)"/></marker></defs>
+    <text x="20" y="28" fill="var(--dense)" font-size="13" font-weight="600">BI-ENCODER · stage one · cheap</text>
+    <rect x="20" y="46" width="170" height="40" rx="7" fill="var(--bg)" stroke="var(--line)"/><text x="34" y="71" fill="var(--ink)" font-size="13">question</text>
+    <rect x="20" y="106" width="170" height="40" rx="7" fill="var(--bg)" stroke="var(--line)"/><text x="34" y="131" fill="var(--ink)" font-size="13">chunk (indexed earlier)</text>
+    <line x1="190" y1="66" x2="246" y2="66" stroke="var(--mute)" marker-end="url(#ar)"/><line x1="190" y1="126" x2="246" y2="126" stroke="var(--mute)" marker-end="url(#ar)"/>
+    <rect x="250" y="46" width="110" height="40" rx="7" fill="var(--panel)" stroke="var(--dense)"/><text x="268" y="71" fill="var(--dense)" font-size="13">encoder</text>
+    <rect x="250" y="106" width="110" height="40" rx="7" fill="var(--panel)" stroke="var(--dense)"/><text x="268" y="131" fill="var(--dense)" font-size="13">encoder</text>
+    <line x1="360" y1="66" x2="416" y2="66" stroke="var(--mute)" marker-end="url(#ar)"/><line x1="360" y1="126" x2="416" y2="126" stroke="var(--mute)" marker-end="url(#ar)"/>
+    <text x="422" y="71" fill="var(--ink2)" font-size="13">[0.12, −0.40, …]</text><text x="422" y="131" fill="var(--ink2)" font-size="13">[0.09, −0.35, …]</text>
+    <line x1="560" y1="66" x2="620" y2="92" stroke="var(--mute)" marker-end="url(#ar)"/><line x1="560" y1="126" x2="620" y2="100" stroke="var(--mute)" marker-end="url(#ar)"/>
+    <rect x="626" y="76" width="120" height="40" rx="7" fill="var(--panel)" stroke="var(--line)"/><text x="642" y="101" fill="var(--ink)" font-size="13">cosine</text>
+    <line x1="746" y1="96" x2="790" y2="96" stroke="var(--mute)" marker-end="url(#ar)"/><text x="796" y="101" fill="var(--dense)" font-size="15" font-weight="600">0.71</text>
+    <text x="20" y="196" fill="var(--bm25)" font-size="13" font-weight="600">CROSS-ENCODER · stage two · expensive</text>
+    <rect x="20" y="214" width="340" height="40" rx="7" fill="var(--bg)" stroke="var(--line)"/><text x="34" y="239" fill="var(--ink)" font-size="13">[question] [SEP] [chunk]   one input</text>
+    <line x1="360" y1="234" x2="416" y2="234" stroke="var(--mute)" marker-end="url(#ar)"/>
+    <rect x="420" y="214" width="200" height="40" rx="7" fill="var(--panel)" stroke="var(--bm25)"/><text x="436" y="239" fill="var(--bm25)" font-size="13">encoder, reads both</text>
+    <line x1="620" y1="234" x2="676" y2="234" stroke="var(--mute)" marker-end="url(#ar)"/>
+    <text x="684" y="239" fill="var(--bm25)" font-size="15" font-weight="600">relevance 0.93</text>
+    <text x="20" y="296" fill="var(--mute)" font-size="12">Every word of the question can attend to every word of the chunk. That is why it notices 5 SC is not 25 SC,</text>
+    <text x="20" y="316" fill="var(--mute)" font-size="12">and why it must run once per (question, chunk) pair at question time. Scores shown are illustrative.</text>
+  </svg></div>
+
+  <h2 style="font-size:20px">Predict before you run</h2>
+  <p class="sub">The question is <b>"What is the dose of buprofezin 25 SC?"</b>. Cosine scores from the bench's embedding model are shown. Which passage do you expect the cross-encoder to separate from the rest? Check with the first cell of notebook 03.</p>
+  <div class="passages" id="passages"></div>
+
+  <h2 style="font-size:20px">What the reranker costs</h2>
+  <p class="sub">Notebook 03 prints <code>ms</code> for hybrid + rerank. Divide it by the number of pairs it read to get your laptop's cost per pair, and enter it here.</p>
+  <div class="bench"><div class="controls">
+    <div class="ctl"><label for="cand">candidates per side</label><input id="cand" type="range" min="5" max="40" step="5" value="20"><output id="cando">20</output></div>
+    <div class="ctl"><label for="ov">overlap between the two lists</label><input id="ov" type="range" min="0" max="80" step="10" value="30"><output id="ovo">30%</output></div>
+    <div class="ctl"><label for="mspp">your ms per pair</label><input id="mspp" type="number" min="0.1" step="0.1" value="4"></div>
+    <div class="ctl"><label for="lim">latency budget, ms</label><input id="lim" type="number" min="1" step="5" value="80"></div>
+  </div></div>
+  <div class="calc stats">
+    <div class="stat"><span>pairs the cross-encoder reads</span><b id="pairs">–</b></div>
+    <div class="stat"><span>rerank time per question</span><b id="rt">–</b></div>
+    <div class="stat"><span>against your budget</span><b id="verdict">–</b></div>
+  </div>
+  <p class="callout">The reranker can only promote what stage one found. More candidates raise the chance the answer is in the pool, and every extra candidate is one more pair to read.</p>
+</section>
+
+<!-- BUDGET -->
+<section id="budget" role="tabpanel" hidden>
+  <h2>Bigger chunks win, until you count the text</h2>
+  <p class="sub">Measured on the bench with hybrid search, no reranker. Each bar shows how much text reaches the model; the dashed line is a budget of about 3,000 characters. The number on the right is recall.</p>
+  <div class="bench"><div class="controls">
+    <div class="seg" role="group" aria-label="Comparison"><button id="modeK" aria-pressed="true">Same k = 5</button><button id="modeB" aria-pressed="false">Same text budget</button></div>
+    <span class="legend">bars: characters sent per question · right: recall</span>
+  </div></div>
+  <div class="bench bars" id="bars"></div>
+  <p class="callout" id="budgetnote"></p>
+</section>
+
+<footer>All documents in the bench are a fictional teaching corpus. The numbers here come from a run of the bench with a small open embedding model, before the notebooks moved to OpenAI embeddings, so your notebook's numbers will differ. The patterns hold: ask the room whether theirs do.</footer>
+</div>
+
+<script>
+const DATA = {"q11": {"q": "The ends of my paddy leaves have gone a burnt yellowish colour and there is a sticky film on them in the mornings. What is it and what should I do?", "dense": [{"id": "post_harvest_paddy-0", "t": "Post-Harvest Handling of Paddy", "x": "Post-Harvest Handling of Paddy Teaching corpus. Figures are illustrative and are not official recommendation", "r": false}, {"id": "paddy_pest_disease_guide-3", "t": "Paddy Pests and Diseases", "x": "5. Paddy bug The paddy bug sucks the milk from developing grains, leaving them chaffy or with brown spots. ", "r": false}, {"id": "paddy_pest_disease_guide-0", "t": "Paddy Pests and Diseases", "x": "Paddy Pests and Diseases — Recognition and Control Teaching corpus. Figures and products are illustrative an", "r": false}, {"id": "post_harvest_paddy-1", "t": "Post-Harvest Handling of Paddy", "x": "4. Testing moisture without a meter Bite a few grains. Grains that break with a clean cracking sound are dr", "r": false}, {"id": "farm_record_P22-0", "t": "Plot P-22, Polonnaruwa", "x": "Farm Record — Plot P-22, Polonnaruwa Teaching corpus. This record is fictional. Farmer: R. A. Nirmala Kumari", "r": false}, {"id": "paddy_pest_disease_guide-1", "t": "Paddy Pests and Diseases", "x": "2. Bacterial leaf blight Bacterial leaf blight begins at the leaf tips and edges. The affected area turns y", "r": true}, {"id": "chilli_cultivation-2", "t": "Chilli Cultivation Guide", "x": "Remove and destroy plants with virus symptoms as soon as they appear. Use yellow sticky traps at 20 per hectar", "r": false}, {"id": "vegetable_pest_guide-0", "t": "Pests of Vegetables", "x": "Pests of Vegetables — Tomato, Brinjal and Okra Teaching corpus. Figures and products are illustrative and ar", "r": false}, {"id": "big_onion_cultivation-2", "t": "Big Onion Cultivation Guide", "x": "5. Purple blotch Purple blotch is a fungal disease that produces small water-soaked spots that enlarge into", "r": false}, {"id": "paddy_pest_disease_guide-2", "t": "Paddy Pests and Diseases", "x": "4. Brown planthopper The brown planthopper (BPH) is a small brown insect that sucks sap at the base of the ", "r": false}], "bm25": [{"id": "seed_certification_rules-0", "t": "Seed Paddy Certification", "x": "Seed Paddy Certification — What the Tags Mean Teaching corpus. These rules are illustrative and written for ", "r": false}, {"id": "paddy_pest_disease_guide-1", "t": "Paddy Pests and Diseases", "x": "2. Bacterial leaf blight Bacterial leaf blight begins at the leaf tips and edges. The affected area turns y", "r": true}, {"id": "crop_insurance_scheme-0", "t": "Paddy Crop Protection Scheme", "x": "Paddy Crop Protection Scheme — Rules for Farmers Teaching corpus. This scheme is fictional and written for a", "r": false}, {"id": "seed_certification_rules-1", "t": "Seed Paddy Certification", "x": "3. What the tag certifies The tag gives the variety, the lot number, the date of testing and the germinatio", "r": false}, {"id": "vegetable_pest_guide-0", "t": "Pests of Vegetables", "x": "Pests of Vegetables — Tomato, Brinjal and Okra Teaching corpus. Figures and products are illustrative and ar", "r": false}, {"id": "water_management-2", "t": "Water Management in Irrigated Paddy", "x": "4. Minor tanks and rotational issues In minor tank command areas, water is issued by rotation, and each tra", "r": false}, {"id": "chilli_cultivation-2", "t": "Chilli Cultivation Guide", "x": "Remove and destroy plants with virus symptoms as soon as they appear. Use yellow sticky traps at 20 per hectar", "r": false}, {"id": "paddy_pest_disease_guide-3", "t": "Paddy Pests and Diseases", "x": "5. Paddy bug The paddy bug sucks the milk from developing grains, leaving them chaffy or with brown spots. ", "r": false}, {"id": "fertilizer_subsidy_circular_2025-2", "t": "Circular AGR/FS/2025/07", "x": "6. Use of the grant The grant is meant for urea, TSP and MOP. Farmers are encouraged to follow the fertiliz", "r": false}, {"id": "paddy_fertilizer_guide-4", "t": "Paddy Fertilizer Recommendations", "x": "7. Zinc deficiency Zinc deficiency appears two to four weeks after transplanting as stunted plants with rus", "r": false}]}, "q21": {"q": "Which variety did plot K-17 grow when it had planthoppers, and which variety resists them better?", "list": [{"id": "farm_record_K17-1", "t": "Plot K-17, Kurunegala", "x": "Maha 2024/25 Variety: Bg 360 (3½ months). Sown 18 October 2024. Fertilizer: basal TSP 50 kg, MOP 24 kg. Ure", "r": true}, {"id": "paddy_varieties-2", "t": "Paddy Variety Guide", "x": "Bg 366. Age 3½ months. White, long grain. Resistant to blast and moderately resistant to brown planthopper", "r": true}, {"id": "farm_record_K17-0", "t": "Plot K-17, Kurunegala", "x": "Farm Record — Plot K-17, Kurunegala Teaching corpus. This record is fictional. Farmer: W. M. Sunil Bandara. ", "r": true}, {"id": "paddy_pest_disease_guide-2", "t": "Paddy Pests and Diseases", "x": "4. Brown planthopper The brown planthopper (BPH) is a small brown insect that sucks sap at the base of the ", "r": false}, {"id": "paddy_varieties-1", "t": "Paddy Variety Guide", "x": "Bg 310. Age 3 months. Red, short round grain, good cooking quality. Susceptible to bacterial leaf blight; ", "r": true}, {"id": "paddy_varieties-0", "t": "Paddy Variety Guide", "x": "Paddy Variety Guide Teaching corpus. Variety attributes are illustrative and are not official descriptions. ", "r": false}, {"id": "farm_record_K09-0", "t": "Plot K-09, Kurunegala", "x": "Farm Record — Plot K-09, Kurunegala Teaching corpus. This record is fictional. Farmer: H. M. Chandrika Herat", "r": false}, {"id": "water_management-2", "t": "Water Management in Irrigated Paddy", "x": "4. Minor tanks and rotational issues In minor tank command areas, water is issued by rotation, and each tra", "r": false}, {"id": "farm_record_A04-1", "t": "Plot A-04, Ampara", "x": "Harvest: Salvage harvest of the standing area on 25 February 2025. Yield 0.9 t/ha. ## Yala 2025 Variety: At 30", "r": false}, {"id": "vegetable_pest_guide-2", "t": "Pests of Vegetables", "x": "6. General rule Most outbreaks of sucking pests on vegetables follow the use of broad-spectrum insecticides", "r": false}]}};
+const $ = s => document.querySelector(s);
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// tabs
+const tabs = [...document.querySelectorAll('nav button')];
+function show(name){
+  tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+  document.querySelectorAll('section[role=tabpanel]').forEach(s => s.hidden = s.id !== name);
+  try{ localStorage.setItem('lab-tab', name) }catch(e){}
+}
+tabs.forEach(t => t.addEventListener('click', () => { show(t.dataset.tab); history.replaceState(null,'','#'+t.dataset.tab) }));
+let start = (location.hash || '').slice(1);
+if(!document.getElementById(start)){ try{ start = localStorage.getItem('lab-tab') || 'map' }catch(e){ start = 'map' } }
+show(document.getElementById(start) ? start : 'map');
+
+// MAP
+(function(){
+  const svg = $('#mapsvg');
+  const C = {x:500,y:280};
+  const branches = [
+    {x:150,y:90, c:'--accent', h:'Measure', s:['bench + evidence phrases','recall · precision · MRR','notebooks 00, 01'], l:[['Retrieval Playground','https://osama-ansar-retrieval-playground.static.hf.space/'],['Weaviate: metrics','https://weaviate.io/blog/retrieval-evaluation-metrics']]},
+    {x:500,y:60, c:'--bm25', h:'Hybrid search', s:['BM25 + its tokenizer','RRF: 1 / (60 + rank)','notebook 02'], l:[['Pinecone: RRF guide','https://docs.pinecone.io/guides/search/reciprocal-rank-fusion'],['RRF paper (2009)','https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf']]},
+    {x:850,y:90, c:'--dense', h:'Rerank', s:['cross-encoder on a shortlist','two-stage retrieval','notebook 03'], l:[['Pinecone: rerankers','https://www.pinecone.io/learn/series/rag/rerankers/'],['SBERT: retrieve & re-rank','https://sbert.net/examples/applications/retrieve_rerank/README.html']]},
+    {x:850,y:440, c:'--ev', h:'Tune', s:['one knob at a time','equal text budget','notebook 04'], l:[['ChunkViz','https://chunkviz.up.railway.app/']]},
+    {x:500,y:500, c:'--good', h:'Diagnose', s:['query · chunking · index · corpus','unanswerable questions','notebook 05'], l:[['Systematically improving RAG','https://jxnl.co/writing/2024/05/22/systematically-improving-your-rag/']]},
+    {x:150,y:440, c:'--ink2', h:'Your index', s:['same metrics on FieldOracle','retrieval report (homework)','notebook 06'], l:[['Anthropic: Contextual Retrieval','https://www.anthropic.com/news/contextual-retrieval']]},
+  ];
+  let out = '';
+  branches.forEach(b => { out += `<line x1="${C.x}" y1="${C.y}" x2="${b.x}" y2="${b.y}" stroke="var(${b.c})" stroke-width="2" opacity=".55"/>`; });
+  out += `<circle cx="${C.x}" cy="${C.y}" r="74" fill="var(--ink)"/><text x="${C.x}" y="${C.y-6}" text-anchor="middle" fill="var(--bg)" font-family="var(--display)" font-weight="800" font-size="21">Retrieval</text><text x="${C.x}" y="${C.y+20}" text-anchor="middle" fill="var(--bg)" font-family="var(--display)" font-weight="800" font-size="21">quality</text>`;
+  branches.forEach(b => {
+    const w = 236, h = 32 + b.s.length*17 + b.l.length*18 + 8;
+    const x = Math.min(Math.max(b.x - w/2, 4), 1000 - w - 4), y = Math.min(Math.max(b.y - h/2, 4), 560 - h - 4);
+    out += `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="var(--panel)" stroke="var(${b.c})" stroke-width="1.5"/>`;
+    out += `<text x="${x+14}" y="${y+24}" fill="var(${b.c})" font-family="var(--display)" font-weight="800" font-size="17">${b.h}</text>`;
+    b.s.forEach((t,i) => out += `<text x="${x+14}" y="${y+46+i*17}" fill="var(--ink2)" font-size="12">${esc(t)}</text>`);
+    b.l.forEach((l,i) => out += `<a href="${l[1]}" target="_blank" rel="noopener"><text x="${x+14}" y="${y+46+b.s.length*17+i*18}" fill="var(--accent)" font-size="12">↗ ${esc(l[0])}</text></a>`);
+  });
+  svg.innerHTML = out;
+})();
+
+// METRICS
+(function(){
+  const L = DATA.q21.list.map(r => ({...r}));
+  $('#q21q').textContent = DATA.q21.q;
+  const k = $('#k1'), tot = $('#tot');
+  function render(){
+    const kk = +k.value; $('#k1o').textContent = kk;
+    const total = Math.max(1, +tot.value || 1);
+    const top = L.slice(0, kk), found = top.filter(r => r.r).length;
+    const first = L.findIndex(r => r.r);
+    $('#mrec').textContent = Math.min(1, found/total).toFixed(2);
+    $('#mprec').textContent = (found/kk).toFixed(2);
+    $('#mrr').textContent = (first >= 0 && first < kk) ? (1/(first+1)).toFixed(2) : '0.00';
+    $('#mlist').innerHTML = L.map((r,i) => (i === kk ? `<li class="kline" aria-hidden="true"><span>k = ${kk}</span></li>` : '') +
+      `<li class="${r.r?'rel':''} ${i>=kk?'cut':''}"><span class="pos">${i+1}</span><span class="doc"><b>${esc(r.id)}</b><small>${esc(r.x)}</small></span><button class="mark" data-i="${i}" aria-pressed="${r.r}">${r.r?'✓ relevant':'mark'}</button></li>`).join('');
+    document.querySelectorAll('#mlist .mark').forEach(b => b.onclick = () => { L[+b.dataset.i].r = !L[+b.dataset.i].r; render(); });
+  }
+  k.oninput = render; tot.oninput = render; render();
+})();
+
+// FUSION
+(function(){
+  $('#q11q').textContent = DATA.q11.q;
+  const D = DATA.q11.dense, B = DATA.q11.bm25;
+  function li(r, i, extra){ return `<li class="${r.r?'rel':''}"><span class="pos">${i+1}</span><span class="doc"><b>${esc(r.id)}</b><small>${esc(r.t)}</small>${extra?`<small class="score">${extra}</small>`:''}</span></li>`; }
+  function render(){
+    const depth = +$('#depth').value, c = +$('#cc').value, wb = +$('#wb').value/100, wd = 1 - wb;
+    $('#deptho').textContent = depth; $('#cco').textContent = c; $('#wbo').textContent = wb.toFixed(2);
+    const d = D.slice(0, depth), b = B.slice(0, depth);
+    $('#fd').innerHTML = D.map((r,i) => i < depth ? li(r,i) : '').join('');
+    $('#fb').innerHTML = B.map((r,i) => i < depth ? li(r,i) : '').join('');
+    const s = {}, meta = {};
+    d.forEach((r,i) => { s[r.id] = (s[r.id]||0) + wd/(c+i+1); meta[r.id] = {...r, inD:i+1, inB:(meta[r.id]||{}).inB}; });
+    b.forEach((r,i) => { s[r.id] = (s[r.id]||0) + wb/(c+i+1); meta[r.id] = {...(meta[r.id]||r), inB:i+1}; });
+    const fused = Object.keys(s).sort((x,y) => s[y]-s[x]);
+    $('#ff').innerHTML = fused.slice(0,5).map((id,i) => { const m = meta[id];
+      const tags = (m.inD?`<span class="tag d">D${m.inD}</span>`:'') + (m.inB?`<span class="tag b">B${m.inB}</span>`:'');
+      return li(m, i, `${s[id].toFixed(4)}${tags}`); }).join('');
+    const pos = fused.findIndex(id => meta[id].r);
+    $('#fusionnote').innerHTML = pos < 0 ? '<b>The answer is not in either list at this depth.</b> Fusion cannot find what neither retriever returned.'
+      : (pos < 5 ? `<b>The answering chunk is ${['1st','2nd','3rd','4th','5th'][pos]} in the fused list.</b> ` : `<b>The answering chunk is ${pos+1}th, outside the top 5.</b> `) +
+        (meta[fused[pos]].inD && meta[fused[pos]].inB ? 'It appears in both lists, so it collects two shares.' : 'Only one list found it, so it has one share to compete with.');
+  }
+  ['#depth','#cc','#wb'].forEach(id => $(id).oninput = render); render();
+})();
+
+// RERANK
+(function(){
+  const P = [["Where spraying is needed, use buprofezin 25 SC at 1.5 ml per litre directed at the base of the plants.",0.768],
+             ["Spray hexaconazole 5 SC at 2 ml per litre if more than 10 percent of tillers are affected.",0.641],
+             ["Avoid pyrethroid sprays, which kill the natural enemies of BPH and cause resurgence.",0.505],
+             ["Do not spray the same insecticide more than twice a season.",0.471]];
+  $('#passages').innerHTML = P.map(p => `<div class="passage"><span>${esc(p[0])}</span><span class="cos">cosine ${p[1].toFixed(3)}</span></div>`).join('');
+  function render(){
+    const n = +$('#cand').value, ov = +$('#ov').value/100, ms = Math.max(0, +$('#mspp').value || 0), lim = Math.max(1, +$('#lim').value || 1);
+    $('#cando').textContent = n; $('#ovo').textContent = Math.round(ov*100) + '%';
+    const pairs = Math.round(2*n - ov*n), t = pairs*ms;
+    $('#pairs').textContent = pairs; $('#rt').textContent = Math.round(t) + ' ms';
+    const v = $('#verdict'); v.textContent = t <= lim ? 'fits' : '×' + (t/lim).toFixed(1) + ' over'; v.style.color = t <= lim ? 'var(--good)' : 'var(--bm25)';
+  }
+  ['#cand','#ov','#mspp','#lim'].forEach(id => $(id).oninput = render); render();
+})();
+
+// BUDGET
+(function(){
+  const K = [{s:300,k:5,ch:1125,r:0.73},{s:500,k:5,ch:1946,r:0.70},{s:1000,k:5,ch:4076,r:0.91},{s:2000,k:5,ch:7339,r:0.97}];
+  const E = [{s:300,k:13,ch:2851,r:0.91},{s:500,k:8,ch:3098,r:0.80},{s:1000,k:4,ch:3274,r:0.89},{s:2000,k:2,ch:3140,r:0.80}];
+  const MAX = 7500, BUD = 3000;
+  let mode = 'k';
+  function render(){
+    const rows = mode === 'k' ? K : E, best = Math.max(...rows.map(r => r.r));
+    $('#bars').innerHTML = rows.map(r => `<div class="bar"><span class="lab">${r.s} × ${r.k}</span><span class="track"><span class="fill" style="width:${(r.ch/MAX*100).toFixed(1)}%"></span><span class="budget" style="left:${(BUD/MAX*100).toFixed(1)}%" title="3,000 characters"></span><span class="chars">${r.ch.toLocaleString()} chars</span></span><span class="rec" style="color:${r.r===best?'var(--accent)':'var(--ink)'}">${r.r.toFixed(2)}</span></div>`).join('');
+    $('#budgetnote').innerHTML = mode === 'k'
+      ? '<b>At the same k, 2000-character chunks win.</b> They also send about 7,300 characters per question, more than twice the budget line. Switch to the same budget.'
+      : '<b>At about the same amount of text, the ranking changes.</b> Small chunks with a larger k match the best recall, and 2000-character chunks fall to the bottom. Compare at equal budget, or you are measuring how much you sent.';
+    $('#modeK').setAttribute('aria-pressed', String(mode==='k')); $('#modeB').setAttribute('aria-pressed', String(mode!=='k'));
+  }
+  $('#modeK').onclick = () => { mode='k'; render() }; $('#modeB').onclick = () => { mode='b'; render() }; render();
+})();
+</script>
