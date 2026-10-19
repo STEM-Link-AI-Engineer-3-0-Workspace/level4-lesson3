@@ -54,6 +54,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-02 -->
 - **03_rerank.py** · Pinecone's hosted cross-encoder versus embedding scores, two-stage retrieval, candidate count
 <!-- notebook-03 -->
+- **04_tuning.py** · One knob at a time: chunk size at equal budget, overlap, a metadata filter
 <!-- notebook-04 -->
 <!-- notebook-05 -->
 <!-- notebook-06 -->
