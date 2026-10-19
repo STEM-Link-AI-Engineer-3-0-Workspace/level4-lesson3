@@ -1,0 +1,308 @@
+[
+ {
+  "id": "q01",
+  "type": "keyword",
+  "question": "What is the cultivated extent of SL-PADDY-KALAWEWA?",
+  "evidence": [
+   "Cultivated extent: 2.4 hectares",
+   "Extent: 2.4 ha"
+  ]
+ },
+ {
+  "id": "q02",
+  "type": "keyword",
+  "question": "What does open item V5 ask for?",
+  "evidence": [
+   "The values that set heavy-rain flags are placeholders"
+  ]
+ },
+ {
+  "id": "q03",
+  "type": "keyword",
+  "question": "What is the BPH economic threshold at heading?",
+  "evidence": [
+   "five per hill at heading"
+  ]
+ },
+ {
+  "id": "q04",
+  "type": "keyword",
+  "question": "How many days does Bg 359 take to mature?",
+  "evidence": [
+   "Maturity 103 to 105 days"
+  ]
+ },
+ {
+  "id": "q05",
+  "type": "keyword",
+  "question": "What is the guaranteed price for Keeri Samba in the 2026 Yala season?",
+  "evidence": [
+   "Keeri Samba: Rs. 140 per kg"
+  ]
+ },
+ {
+  "id": "q06",
+  "type": "keyword",
+  "question": "What is the minimum premium for AAIB voluntary cover?",
+  "evidence": [
+   "minimum premium of Rs. 6,400"
+  ]
+ },
+ {
+  "id": "q07",
+  "type": "keyword",
+  "question": "What was the mean NDVI of SL-PADDY-MINNERIYA for 22-29 Jul 2026?",
+  "evidence": [
+   "22-29 Jul 2026. Mean NDVI: 0.58"
+  ]
+ },
+ {
+  "id": "q08",
+  "type": "keyword",
+  "question": "Which Agrarian Service Centre serves SL-PADDY-MINNERIYA?",
+  "evidence": [
+   "Agrarian Service Centre: Hingurakgoda"
+  ]
+ },
+ {
+  "id": "q09",
+  "type": "keyword",
+  "question": "Who cultivates SL-PADDY-SAMMANTHURAI?",
+  "evidence": [
+   "Cultivator: M. I. Rasheed"
+  ]
+ },
+ {
+  "id": "q10",
+  "type": "keyword",
+  "question": "When can farmers call the 1920 service?",
+  "evidence": [
+   "operating daily during office hours"
+  ]
+ },
+ {
+  "id": "q11",
+  "type": "keyword",
+  "question": "Where was the first PMB purchasing centre for 2026 Yala?",
+  "evidence": [
+   "with the first centre at Uhana"
+  ]
+ },
+ {
+  "id": "q12",
+  "type": "keyword",
+  "question": "Which varieties resist gall midge biotypes I and II?",
+  "evidence": [
+   "Resistant to biotypes I and II: Bg 304"
+  ]
+ },
+ {
+  "id": "q13",
+  "type": "paraphrase",
+  "question": "The bottom leaves have little rusty specks that start at the ends and spread. What could it be?",
+  "evidence": [
+   "tiny reddish-brown spots beginning on the lower, older leaves",
+   "small reddish-brown spots on the lower leaves, starting at the leaf tips"
+  ]
+ },
+ {
+  "id": "q14",
+  "type": "paraphrase",
+  "question": "Why would the satellite say my field got less green when the plants look the same?",
+  "evidence": [
+   "a field holding more water than usual can show a lower mean NDVI"
+  ]
+ },
+ {
+  "id": "q15",
+  "type": "paraphrase",
+  "question": "Parts of my crop look scorched and are lying flat. Which pest causes that?",
+  "evidence": [
+   "Heavy infestations produce hopper burn"
+  ]
+ },
+ {
+  "id": "q16",
+  "type": "paraphrase",
+  "question": "How do I see how far the water has dropped below the soil when I am saving water?",
+  "evidence": [
+   "Use a perforated PVC tube about 4 inches in diameter"
+  ]
+ },
+ {
+  "id": "q17",
+  "type": "paraphrase",
+  "question": "My crop is nearly ready to cut and the satellite says it is getting less green. Should I worry?",
+  "evidence": [
+   "older than roughly 75 to 80 days may be normal"
+  ]
+ },
+ {
+  "id": "q18",
+  "type": "paraphrase",
+  "question": "How do I use the little card with shades of green to decide if my rice is hungry?",
+  "evidence": [
+   "The farmer compares the middle of the topmost fully expanded leaf"
+  ]
+ },
+ {
+  "id": "q19",
+  "type": "paraphrase",
+  "question": "Why does a low corner of my field turn salty?",
+  "evidence": [
+   "Seepage and runoff collect in depressions or low-lying areas"
+  ]
+ },
+ {
+  "id": "q20",
+  "type": "paraphrase",
+  "question": "Some young shoots turned into a pale hollow tube and stopped growing. What is it?",
+  "evidence": [
+   "which forms a gall called a silver shoot or onion shoot"
+  ]
+ },
+ {
+  "id": "q21",
+  "type": "paraphrase",
+  "question": "Does the free government cover pay out when wild animals trample my paddy?",
+  "evidence": [
+   "damage from floods, drought and wild elephants"
+  ]
+ },
+ {
+  "id": "q22",
+  "type": "paraphrase",
+  "question": "Why can't you just tell me how much fertiliser to put on?",
+  "evidence": [
+   "does not issue one national fertiliser figure for paddy"
+  ]
+ },
+ {
+  "id": "q23",
+  "type": "paraphrase",
+  "question": "There have been grey skies for weeks and very few pictures from space. Is my field in trouble?",
+  "evidence": [
+   "low count during these periods is expected"
+  ]
+ },
+ {
+  "id": "q24",
+  "type": "paraphrase",
+  "question": "My harvest is still a bit damp. Will the state buyer take it?",
+  "evidence": [
+   "Moisture content of 14 percent or less"
+  ]
+ },
+ {
+  "id": "q25",
+  "type": "multi",
+  "question": "Kalawewa's 2026 Yala fertiliser subsidy: what was the rate, and how much of the field was paid for?",
+  "evidence": [
+   "Rs. 25,000 per hectare, up to a maximum of two hectares",
+   "received for 2.0 hectares of the 2.4 hectare field"
+  ]
+ },
+ {
+  "id": "q26",
+  "type": "multi",
+  "question": "Does improved AWD suit the Sammanthurai field?",
+  "evidence": [
+   "not suitable for saline paddy fields",
+   "recorded symptoms consistent with salinity"
+  ]
+ },
+ {
+  "id": "q27",
+  "type": "multi",
+  "question": "Is the variety sown at Minneriya this Maha resistant to gall midge biotype II?",
+  "evidence": [
+   "gall midge (biotype I)",
+   "Bg 380, Bg 450 and Bg 300",
+   "sowed certified Bg 300 seed paddy"
+  ]
+ },
+ {
+  "id": "q28",
+  "type": "multi",
+  "question": "Can the Kalawewa farmer claim insurance for the July drought, and was the damage reported?",
+  "evidence": [
+   "damage from floods, drought and wild elephants",
+   "notified the AAIB representative of drought damage"
+  ]
+ },
+ {
+  "id": "q29",
+  "type": "multi",
+  "question": "Which fertiliser schedule applies to the Matugama field, and when do the later urea dressings fall for its age class?",
+  "evidence": [
+   "falls under the Wet Zone rainfed schedule",
+   "weeks for three and a half month varieties"
+  ]
+ },
+ {
+  "id": "q30",
+  "type": "filter",
+  "question": "What did the Agriculture Instructor advise for the iron toxicity at Matugama?",
+  "evidence": [
+   "digging a drain along the eastern boundary"
+  ]
+ },
+ {
+  "id": "q31",
+  "type": "filter",
+  "question": "What did the Agriculture Instructor find in the Sammanthurai depression?",
+  "evidence": [
+   "the drainage way from the depression had been"
+  ]
+ },
+ {
+  "id": "q32",
+  "type": "filter",
+  "question": "When was the advisory issued for the Kalawewa decline under dry conditions?",
+  "evidence": [
+   "14 July 2026: AgriVibe advisory issued"
+  ]
+ },
+ {
+  "id": "q33",
+  "type": "filter",
+  "question": "What was done about the standing water in Minneriya's north-east corner?",
+  "evidence": [
+   "cultivator cleared the drain at the north-east corner"
+  ]
+ },
+ {
+  "id": "q34",
+  "type": "filter",
+  "question": "How much of the Kalawewa field received the fertiliser subsidy?",
+  "evidence": [
+   "received for 2.0 hectares of the 2.4 hectare field"
+  ]
+ },
+ {
+  "id": "q35",
+  "type": "filter",
+  "question": "Did extra urea help the Matugama crop last Yala?",
+  "evidence": [
+   "applied an extra urea top dressing on her own initiative"
+  ]
+ },
+ {
+  "id": "q36",
+  "type": "none",
+  "question": "How often should the tea at SL-TEA-PEDRO be pruned?",
+  "evidence": []
+ },
+ {
+  "id": "q37",
+  "type": "none",
+  "question": "What spacing should I use when transplanting maize?",
+  "evidence": []
+ },
+ {
+  "id": "q38",
+  "type": "none",
+  "question": "How much does a soil test cost at the Agrarian Service Centre?",
+  "evidence": []
+ }
+]

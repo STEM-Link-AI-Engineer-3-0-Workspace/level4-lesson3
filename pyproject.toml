@@ -1,0 +1,28 @@
+[project]
+name = "level4-lesson3"
+version = "0.1.0"
+description = "STEMLink AI Engineer Bootcamp — Level 4 Lesson 3: retrieval quality, measured and improved"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "langchain-openai>=1.0",
+    "langchain-pinecone>=0.2.13",
+    "langchain-community>=0.4,<0.5",
+    "langchain-text-splitters>=1.1.3",
+    "pinecone>=7.0",
+    "pypdf>=5.0",
+    "rank-bm25>=0.2.2",
+    "ranx>=0.3.20",
+    "numpy>=1.26",
+    "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+dev = [
+    "marimo>=0.24.2",
+]
+
+# A set of numbered teaching notebooks, not an installable library — nothing to build.
+[tool.uv]
+package = false

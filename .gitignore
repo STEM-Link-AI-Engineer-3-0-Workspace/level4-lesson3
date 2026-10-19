@@ -1,0 +1,7 @@
+.venv/
+.cache/
+.env
+__pycache__/
+__marimo__/
+data/my_questions.json
+reports/*.md

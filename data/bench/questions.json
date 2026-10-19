@@ -1,0 +1,291 @@
+[
+ {
+  "id": "q01",
+  "type": "keyword",
+  "question": "What disease is At 362 resistant to?",
+  "evidence": [
+   "Resistant to bacterial leaf blight and recommended for fields where the disease recurs"
+  ]
+ },
+ {
+  "id": "q02",
+  "type": "keyword",
+  "question": "How much does circular AGR/FS/2025/07 pay per hectare?",
+  "evidence": [
+   "The grant is LKR 25,000 per hectare"
+  ]
+ },
+ {
+  "id": "q03",
+  "type": "keyword",
+  "question": "What was the outcome of claim CLM-2025-0412?",
+  "evidence": [
+   "Compensation of LKR 160,000 approved for 1.6 ha"
+  ]
+ },
+ {
+  "id": "q04",
+  "type": "keyword",
+  "question": "Is Bg 403 a red or a white rice?",
+  "evidence": [
+   "Age 4 months. Red, short round grain. Tall, with good tolerance to deep water"
+  ]
+ },
+ {
+  "id": "q05",
+  "type": "keyword",
+  "question": "What is the dose of buprofezin 25 SC?",
+  "evidence": [
+   "use buprofezin 25 SC at 1.5 ml per litre"
+  ]
+ },
+ {
+  "id": "q06",
+  "type": "keyword",
+  "question": "What yield did plot K-17 get in Yala 2025?",
+  "evidence": [
+   "Yield 4.9 t/ha"
+  ]
+ },
+ {
+  "id": "q07",
+  "type": "keyword",
+  "question": "At what rate is tricyclazole 75 WP sprayed?",
+  "evidence": [
+   "tricyclazole 75 WP at 0.6 g per litre"
+  ]
+ },
+ {
+  "id": "q08",
+  "type": "keyword",
+  "question": "Which is salt tolerant, Ld 365 or Bw 367?",
+  "evidence": [
+   "Tolerant to salinity; recommended for coastal fields"
+  ]
+ },
+ {
+  "id": "q09",
+  "type": "keyword",
+  "question": "What zinc level did the P-22 soil test show?",
+  "evidence": [
+   "Available zinc 0.4 ppm"
+  ]
+ },
+ {
+  "id": "q10",
+  "type": "keyword",
+  "question": "What does a purple tag on a seed bag mean?",
+  "evidence": [
+   "A purple tag means registered seed."
+  ]
+ },
+ {
+  "id": "q11",
+  "type": "paraphrase",
+  "question": "The ends of my paddy leaves have gone a burnt yellowish colour and there is a sticky film on them in the mornings. What is it and what should I do?",
+  "evidence": [
+   "milky droplets of bacterial ooze",
+   "Drain the field for a few days, stop nitrogen top dressing"
+  ]
+ },
+ {
+  "id": "q12",
+  "type": "paraphrase",
+  "question": "Round patches of dead brown plants keep showing up in the middle of my field. What is causing it?",
+  "evidence": [
+   "circular patches of plants that turn yellow, then brown, and collapse"
+  ]
+ },
+ {
+  "id": "q13",
+  "type": "paraphrase",
+  "question": "The tops of my rice plants flop over just before harvest and there is nothing inside the husks. What is going on?",
+  "evidence": [
+   "When the neck is infected the panicle breaks over and the grains stay empty"
+  ]
+ },
+ {
+  "id": "q14",
+  "type": "paraphrase",
+  "question": "How can I use less water on my rice without losing harvest?",
+  "evidence": [
+   "AWD saves 15 to 30 percent of irrigation water with no loss of yield"
+  ]
+ },
+ {
+  "id": "q15",
+  "type": "paraphrase",
+  "question": "My chilli leaves are bending down and look like leather underneath. What should I spray?",
+  "evidence": [
+   "Mites cause downward curling",
+   "spray sulphur 80 WG at 3 g per litre"
+  ]
+ },
+ {
+  "id": "q16",
+  "type": "paraphrase",
+  "question": "A few weeks after planting the seedlings are short, with rusty spots, and the whole field looks bronze. What fixes it?",
+  "evidence": [
+   "rusty brown spots on older leaves and a bronzed look across the field",
+   "Correct it with zinc sulphate at 10 kg/ha"
+  ]
+ },
+ {
+  "id": "q17",
+  "type": "paraphrase",
+  "question": "When should I stop giving water before cutting the crop?",
+  "evidence": [
+   "Drain the field 10 to 14 days before harvest"
+  ]
+ },
+ {
+  "id": "q18",
+  "type": "paraphrase",
+  "question": "If the tank won't last the whole season, which part of the crop's life should I save water for?",
+  "evidence": [
+   "prioritise the flowering stage"
+  ]
+ },
+ {
+  "id": "q19",
+  "type": "paraphrase",
+  "question": "How much seed should I buy to sow one hectare?",
+  "evidence": [
+   "100 kg of certified seed per hectare"
+  ]
+ },
+ {
+  "id": "q20",
+  "type": "paraphrase",
+  "question": "Elephants trampled my paddy last night. What paperwork do I need to get paid?",
+  "evidence": [
+   "obtain a certificate from the Grama Niladhari"
+  ]
+ },
+ {
+  "id": "q21",
+  "type": "multi",
+  "question": "Which variety did plot K-17 grow when it had planthoppers, and which variety resists them better?",
+  "evidence": [
+   "Variety: Bg 360 (3\u00bd months). Sown 18 October 2024",
+   "Resistant to blast and moderately resistant to brown planthopper"
+  ]
+ },
+ {
+  "id": "q22",
+  "type": "multi",
+  "question": "The P-22 farmer has 2.0 ha of paddy. How much fertilizer grant can she get for Maha 2025/26?",
+  "evidence": [
+   "of which 2.0 ha is paddy",
+   "The grant is LKR 25,000 per hectare"
+  ]
+ },
+ {
+  "id": "q23",
+  "type": "multi",
+  "question": "Was the compensation paid on the Ampara plot the most the insurance scheme allows?",
+  "evidence": [
+   "Compensation of LKR 160,000 approved for 1.6 ha",
+   "The maximum compensation is LKR 100,000 per hectare"
+  ]
+ },
+ {
+  "id": "q24",
+  "type": "multi",
+  "question": "Which 3\u00bd month variety suits a field where leaf blight keeps coming back, and when is urea applied for that age class?",
+  "evidence": [
+   "Resistant to bacterial leaf blight and recommended",
+   "Medium-duration varieties receive urea in four top dressings at 2, 4, 6 and 7 weeks"
+  ]
+ },
+ {
+  "id": "q25",
+  "type": "filter",
+  "question": "What is the maximum land size covered by the fertilizer grant this Maha season?",
+  "evidence": [
+   "The cultivated extent is not more than 2 hectares"
+  ]
+ },
+ {
+  "id": "q26",
+  "type": "filter",
+  "question": "Can a tenant farmer apply for the fertilizer grant?",
+  "evidence": [
+   "Tenant cultivators are eligible for the land they cultivate"
+  ]
+ },
+ {
+  "id": "q27",
+  "type": "filter",
+  "question": "What is the closing date for fertilizer grant applications?",
+  "evidence": [
+   "Applications for Maha 2025/26 close on 31 October 2025"
+  ]
+ },
+ {
+  "id": "q28",
+  "type": "filter",
+  "question": "When is urea applied to Bg 403?",
+  "evidence": [
+   "Long-duration varieties such as Bg 403 and Bg 94-1 receive urea in four top dressings at 2, 5, 7 and 9 weeks"
+  ]
+ },
+ {
+  "id": "q29",
+  "type": "filter",
+  "question": "What did the Agricultural Instructor advise for iron toxicity on the Ampara plot?",
+  "evidence": [
+   "advised improving drainage and adding MOP"
+  ]
+ },
+ {
+  "id": "q30",
+  "type": "filter",
+  "question": "How soon must crop damage be reported to claim compensation?",
+  "evidence": [
+   "within 14 days of the damage"
+  ]
+ },
+ {
+  "id": "q31",
+  "type": "paraphrase",
+  "question": "How far apart should I plant chilli?",
+  "evidence": [
+   "60 cm between rows and 45 cm between plants"
+  ]
+ },
+ {
+  "id": "q32",
+  "type": "keyword",
+  "question": "Should I use pyrethroids against BPH?",
+  "evidence": [
+   "Avoid pyrethroid sprays, which kill the natural enemies of BPH"
+  ]
+ },
+ {
+  "id": "q33",
+  "type": "paraphrase",
+  "question": "Why is it a bad idea to spray every time I see a few insects?",
+  "evidence": [
+   "Spraying below threshold costs money, kills natural enemies"
+  ]
+ },
+ {
+  "id": "q34",
+  "type": "none",
+  "question": "What is the fertilizer schedule for maize?",
+  "evidence": []
+ },
+ {
+  "id": "q35",
+  "type": "none",
+  "question": "How much does it cost to rent a two-wheel tractor for a day?",
+  "evidence": []
+ },
+ {
+  "id": "q36",
+  "type": "none",
+  "question": "How much is the fertilizer grant for Yala 2026?",
+  "evidence": []
+ }
+]

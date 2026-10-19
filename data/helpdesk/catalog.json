@@ -1,0 +1,11 @@
+{
+ "manual_ac_PX12.md": {"category": "manual", "title": "PX-12 Air Conditioner Manual"},
+ "manual_washer_WF70.md": {"category": "manual", "title": "WF-70 Washing Machine Manual"},
+ "manual_fridge_RD320.md": {"category": "manual", "title": "RD-320 Refrigerator Manual"},
+ "warranty_policy.md": {"category": "policy", "title": "Warranty Policy"},
+ "returns_policy.md": {"category": "policy", "title": "Returns and Refunds"},
+ "delivery_installation.md": {"category": "policy", "title": "Delivery and Installation"},
+ "service_centres.md": {"category": "policy", "title": "Service Centres and Charges"},
+ "care_plus_plan.md": {"category": "policy", "title": "Care+ Extended Warranty"},
+ "ticket_log_sept_2025.md": {"category": "tickets", "title": "Ticket Log September 2025"}
+}
