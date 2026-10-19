@@ -50,6 +50,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-00 -->
 - **01_metrics.py** · recall@k, precision@k and MRR with ranx, on a toy list and on the bench; what k costs
 <!-- notebook-01 -->
+- **02_hybrid.py** · BM25 and its tokenizer, reciprocal rank fusion by hand, then as an `rrf` function
 <!-- notebook-02 -->
 <!-- notebook-03 -->
 <!-- notebook-04 -->
