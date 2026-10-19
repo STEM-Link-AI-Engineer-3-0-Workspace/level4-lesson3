@@ -58,6 +58,7 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-04 -->
 - **05_failures.py** · Where the evidence went: query, chunking, index or corpus; unanswerable questions
 <!-- notebook-05 -->
+- **06_your_corpus.py** · The same measurements on your Pinecone index, with Lesson 2's PDFs for BM25; writes `reports/retrieval_report.md`
 <!-- notebook-06 -->
 <!-- notebook-07 -->
 
