@@ -128,7 +128,7 @@ footer{margin-top:40px;color:var(--mute);font-size:12.5px;border-top:1px solid v
     <div class="stat"><span>reciprocal rank</span><b id="mrr">–</b><p>1 ÷ position of the first relevant chunk.</p></div>
   </div>
   <div class="bench"><ol class="rank" id="mlist"></ol></div>
-  <p class="callout">Try it: set k to 1, then to 10. Recall climbs, precision falls. Then unmark the first result and watch only reciprocal rank collapse. The bench scores evidence phrases rather than chunks, so its recall can differ slightly.</p>
+  <p class="callout">Try it: set k to 1, then to 10. Recall climbs, precision falls. Then at k = 5, unmark result 1 and read all three numbers. Mark it again and unmark result 5 instead. Recall and precision drop by the same amount both times, because they only count relevant chunks. Reciprocal rank halves only when result 1 goes: it is the one number that cares where the answer sits.</p>
 </section>
 
 <!-- FUSION -->
