@@ -59,6 +59,7 @@ def _(GROUP):
     import re
     import time
 
+    from langchain_classic.retrievers import EnsembleRetriever
     from langchain_community.retrievers import BM25Retriever
     from langchain_core.vectorstores import InMemoryVectorStore
     from langchain_openai import OpenAIEmbeddings
@@ -78,13 +79,10 @@ def _(GROUP):
     def tokenize(text):
         return re.findall(r"[a-z0-9]+(?:[-/.,][a-z0-9]+)*", text.lower())
 
-    def rrf(rankings, c=60):
-        scores, by_id = {}, {}
-        for ranking in rankings:
-            for rank, doc in enumerate(ranking, start=1):
-                scores[doc.id] = scores.get(doc.id, 0) + 1 / (c + rank)
-                by_id[doc.id] = doc
-        return [by_id[i] for i in sorted(scores, key=scores.get, reverse=True)]
+    def make_hybrid(store, chunks, k):
+        """Dense top k and BM25 top k, fused with reciprocal rank fusion."""
+        bm25 = BM25Retriever.from_documents(chunks, k=k, preprocess_func=tokenize)
+        return EnsembleRetriever(retrievers=[store.as_retriever(search_kwargs={"k": k}), bm25], weights=[0.5, 0.5])
 
     def rerank(query, found, top_n):
         result = pc.inference.rerank(model=RERANK_MODEL, query=query, documents=[d.page_content for d in found], top_n=top_n, return_documents=False)
@@ -110,8 +108,8 @@ def _(GROUP):
         InMemoryVectorStore,
         docs,
         embeddings,
+        make_hybrid,
         rerank,
-        rrf,
         score,
         split,
         tokenize,
@@ -126,7 +124,8 @@ def _(mo):
     - `split(docs, size, overlap)`: chunks
     - `InMemoryVectorStore.from_documents(chunks, embeddings)` then `store.similarity_search(q, k=k)`: dense
     - `BM25Retriever.from_documents(chunks, k=20, preprocess_func=tokenize)` then `bm25.invoke(q)[:k]`: keyword
-    - `rrf([list_one, list_two])[:k]`: hybrid
+    - `hybrid = make_hybrid(store, chunks, k)` once, then `hybrid.invoke(q)[:k]`: hybrid, LangChain's
+      `EnsembleRetriever` doing the reciprocal rank fusion from notebook 02
     - `rerank(q, candidates, top_n=k)`: cross-encoder
     - `score(search_function, "a name", k, chunks)`: your group's number
 
@@ -136,13 +135,13 @@ def _(mo):
 
 
 @app.cell
-def _(BM25Retriever, InMemoryVectorStore, docs, embeddings, rrf, score, split, tokenize):
+def _(InMemoryVectorStore, docs, embeddings, make_hybrid, score, split):
     chunks = split(docs, size=400, overlap=60)
     store = InMemoryVectorStore.from_documents(chunks, embeddings)
-    bm25 = BM25Retriever.from_documents(chunks, k=20, preprocess_func=tokenize)
+    hybrid = make_hybrid(store, chunks, 5)
 
     score(lambda q: store.similarity_search(q, k=5), "dense 400/60 k=5", 5, chunks)
-    score(lambda q: rrf([store.similarity_search(q, k=5), bm25.invoke(q)[:5]])[:5], "hybrid 400/60 k=5", 5, chunks)
+    score(lambda q: hybrid.invoke(q)[:5], "hybrid 400/60 k=5", 5, chunks)
     return
 
 
