@@ -49,6 +49,7 @@ uv run marimo edit notebooks/00_bench.py
 - **00_bench.py** · The bench: a fixed corpus, questions with evidence phrases, and a dense baseline
 <!-- notebook-00 -->
 <!-- notebook-01 -->
+- **02_hybrid.py** · BM25 and its tokenizer, reciprocal rank fusion by hand, then as an `rrf` function
 <!-- notebook-02 -->
 <!-- notebook-03 -->
 <!-- notebook-04 -->
