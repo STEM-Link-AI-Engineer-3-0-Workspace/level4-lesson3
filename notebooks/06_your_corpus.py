@@ -130,19 +130,13 @@ def _(RERANK_MODEL, chunks, key, pc, questions, store):
     import re
     import time
 
+    from langchain_classic.retrievers import EnsembleRetriever
     from langchain_community.retrievers import BM25Retriever
     from ranx import Run, compare
 
     def tokenize(text):
         return re.findall(r"[a-z0-9]+(?:[-/.,][a-z0-9]+)*", text.lower())
 
-    def rrf(rankings, c=60):
-        scores, by_id = {}, {}
-        for ranking in rankings:
-            for rank, doc in enumerate(ranking, start=1):
-                scores[doc.id] = scores.get(doc.id, 0) + 1 / (c + rank)
-                by_id[doc.id] = doc
-        return [by_id[i] for i in sorted(scores, key=scores.get, reverse=True)]
 
     def rerank(query, docs, top_n=5):
         result = pc.inference.rerank(model=RERANK_MODEL, query=query, documents=[d.page_content for d in docs], top_n=top_n, return_documents=False)
@@ -158,12 +152,17 @@ def _(RERANK_MODEL, chunks, key, pc, questions, store):
         print(name, "| chars per question:", chars // len(questions), "| ms per question:", int(ms))
         return Run(ranking, name=name)
 
-    bm25 = BM25Retriever.from_documents(chunks, k=20, preprocess_func=tokenize)
+    def hybrid(n):
+        """Pinecone's top n and BM25's top n, fused with reciprocal rank fusion."""
+        bm25 = BM25Retriever.from_documents(chunks, k=n, preprocess_func=tokenize)
+        return EnsembleRetriever(retrievers=[store.as_retriever(search_kwargs={"k": n}), bm25], weights=[0.5, 0.5])
+
+    hybrid_5, hybrid_20 = hybrid(5), hybrid(20)
 
     runs = [
         run(lambda q: store.similarity_search(q, k=5), "dense"),
-        run(lambda q: rrf([store.similarity_search(q, k=5), bm25.invoke(q)[:5]])[:5], "hybrid"),
-        run(lambda q: rerank(q, rrf([store.similarity_search(q, k=20), bm25.invoke(q)])), "hybrid + rerank"),
+        run(lambda q: hybrid_5.invoke(q)[:5], "hybrid"),
+        run(lambda q: rerank(q, hybrid_20.invoke(q)), "hybrid + rerank"),
     ]
     report = compare(key, runs=runs, metrics=["recall@5", "precision@5", "mrr@5"])
     print(report)
