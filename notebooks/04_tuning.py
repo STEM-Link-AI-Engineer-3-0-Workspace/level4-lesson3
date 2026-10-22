@@ -33,7 +33,8 @@ def _(mo):
     revert it, write it down.**
 
     We tune on hybrid search because it rebuilds in seconds. The reranker comes back at the
-    end to confirm the winner.
+    end to confirm the winner. From here on, LangChain's `EnsembleRetriever` does the fusion:
+    it is the same reciprocal rank fusion you wrote in notebook 02 (`1 / (60 + rank)`, summed).
     """)
     return
 
@@ -43,6 +44,7 @@ def _():
     import re
     import time
 
+    from langchain_classic.retrievers import EnsembleRetriever
     from langchain_community.retrievers import BM25Retriever
     from langchain_core.vectorstores import InMemoryVectorStore
     from langchain_openai import OpenAIEmbeddings
@@ -58,14 +60,6 @@ def _():
 
     def tokenize(text):
         return re.findall(r"[a-z0-9]+(?:[-/.,][a-z0-9]+)*", text.lower())
-
-    def rrf(rankings, c=60):
-        scores, by_id = {}, {}
-        for ranking in rankings:
-            for rank, doc in enumerate(ranking, start=1):
-                scores[doc.id] = scores.get(doc.id, 0) + 1 / (c + rank)
-                by_id[doc.id] = doc
-        return [by_id[i] for i in sorted(scores, key=scores.get, reverse=True)]
 
     def answer_key(chunks):
         # Chunk ids change with the chunk size, so the answer key is rebuilt for each setting.
@@ -88,9 +82,11 @@ def _():
         """Build both indexes over these chunks and return a hybrid search with this k."""
         store = InMemoryVectorStore.from_documents(chunks, embeddings)
         bm25 = BM25Retriever.from_documents(chunks, k=k, preprocess_func=tokenize)
-        return lambda q: rrf([store.similarity_search(q, k=k), bm25.invoke(q)])[:k]
+        hybrid = EnsembleRetriever(retrievers=[store.as_retriever(search_kwargs={"k": k}), bm25], weights=[0.5, 0.5])
+        return lambda q: hybrid.invoke(q)[:k]
     return (
         BM25Retriever,
+        EnsembleRetriever,
         InMemoryVectorStore,
         Pinecone,
         Qrels,
@@ -101,7 +97,6 @@ def _():
         embeddings,
         hybrid_for,
         questions,
-        rrf,
         run,
         split,
         tokenize,
@@ -194,6 +189,7 @@ def _(mo):
 @app.cell
 def _(
     BM25Retriever,
+    EnsembleRetriever,
     InMemoryVectorStore,
     Qrels,
     answer_key,
@@ -203,7 +199,6 @@ def _(
     docs,
     embeddings,
     questions,
-    rrf,
     run,
     split,
     tokenize,
@@ -211,22 +206,26 @@ def _(
     chunks = split(docs, chosen_size, 150)
     key = answer_key(chunks)
     store = InMemoryVectorStore.from_documents(chunks, embeddings)
-    bm25_all = BM25Retriever.from_documents(chunks, k=20, preprocess_func=tokenize)
-    bm25_current = BM25Retriever.from_documents([c for c in chunks if c.metadata["current"]], k=20, preprocess_func=tokenize)
 
     def is_current(doc):
         return doc.metadata["current"]
 
-    def filtered(query, n=chosen_k):
-        return rrf([store.similarity_search(query, k=n, filter=is_current), bm25_current.invoke(query)[:n]])[:n]
+    def hybrid(bm25_chunks, n, **search_kwargs):
+        """Dense search over the shared store plus BM25 over these chunks, top n of each, fused."""
+        dense = store.as_retriever(search_kwargs={"k": n, **search_kwargs})
+        bm25 = BM25Retriever.from_documents(bm25_chunks, k=n, preprocess_func=tokenize)
+        ensemble = EnsembleRetriever(retrievers=[dense, bm25], weights=[0.5, 0.5])
+        return lambda q: ensemble.invoke(q)[:n]
 
-    def unfiltered(query, n=chosen_k):
-        return rrf([store.similarity_search(query, k=n), bm25_all.invoke(query)[:n]])[:n]
+    unfiltered = hybrid(chunks, chosen_k)
+    # The reranker below takes 20 candidates, so build the filtered search at both depths.
+    current = [c for c in chunks if c.metadata["current"]]
+    filtered = {n: hybrid(current, n, filter=is_current) for n in (chosen_k, 20)}
 
     filter_qs = [q for q in questions if q["type"] == "filter"]
     filter_key = Qrels({q["id"]: key.qrels[q["id"]] for q in filter_qs})
     before = run(unfiltered, "before filter", filter_qs)
-    after = run(filtered, "after filter", filter_qs)
+    after = run(filtered[chosen_k], "after filter", filter_qs)
     print("filter questions only")
     print(compare(filter_key, runs=[before, after], metrics=[f"recall@{chosen_k}", f"mrr@{chosen_k}"]))
     return filtered, key
@@ -248,7 +247,7 @@ def _(Pinecone, RERANK_MODEL, chosen_k, compare, filtered, key, run):
     pc = Pinecone()
 
     def final(query):
-        docs = filtered(query, 20)
+        docs = filtered[20](query)
         result = pc.inference.rerank(
             model=RERANK_MODEL,
             query=query,
@@ -258,7 +257,7 @@ def _(Pinecone, RERANK_MODEL, chosen_k, compare, filtered, key, run):
         )
         return [docs[r.index] for r in result.data]
 
-    print(compare(key, runs=[run(filtered, "1000/150 k=4 + filter"), run(final, "+ rerank")], metrics=[f"recall@{chosen_k}", f"mrr@{chosen_k}"]))
+    print(compare(key, runs=[run(filtered[chosen_k], "1000/150 k=4 + filter"), run(final, "+ rerank")], metrics=[f"recall@{chosen_k}", f"mrr@{chosen_k}"]))
     return
 
 
