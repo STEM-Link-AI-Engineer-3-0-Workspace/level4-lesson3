@@ -51,10 +51,15 @@ uv run marimo edit notebooks/00_bench.py
 <!-- notebook-01 -->
 - **02_hybrid.py** · BM25 and its tokenizer, reciprocal rank fusion by hand, then as an `rrf` function
 <!-- notebook-02 -->
+- **03_rerank.py** · Pinecone's hosted cross-encoder versus embedding scores, two-stage retrieval, candidate count
 <!-- notebook-03 -->
+- **04_tuning.py** · One knob at a time: chunk size at equal budget, overlap, a metadata filter
 <!-- notebook-04 -->
+- **05_failures.py** · Where the evidence went: query, chunking, index or corpus; unanswerable questions
 <!-- notebook-05 -->
+- **06_your_corpus.py** · The same measurements on your Pinecone index, with Lesson 2's PDFs for BM25; writes `reports/retrieval_report.md`
 <!-- notebook-06 -->
+- **07_breakout_help_desk.py** · Breakout: four products, four rules, four different right answers
 <!-- notebook-07 -->
 
 ## What is where
